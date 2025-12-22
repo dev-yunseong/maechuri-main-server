@@ -4,9 +4,11 @@ import com.maechuri.mainserver.config.MinioProperties
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatchers.any
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import org.mockito.junit.jupiter.MockitoExtension
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
@@ -57,10 +59,10 @@ class MinioServiceTest {
         
         `when`(minioProperties.bucketName).thenReturn(bucketName)
         
-        val mockPresignedRequest = org.mockito.Mockito.mock(PresignedGetObjectRequest::class.java)
+        val mockPresignedRequest = mock(PresignedGetObjectRequest::class.java)
         `when`(mockPresignedRequest.url()).thenReturn(mockUrl)
         
-        `when`(s3Presigner.presignGetObject(org.mockito.ArgumentMatchers.any(GetObjectPresignRequest::class.java)))
+        `when`(s3Presigner.presignGetObject(any(GetObjectPresignRequest::class.java)))
             .thenReturn(mockPresignedRequest)
 
         // When
