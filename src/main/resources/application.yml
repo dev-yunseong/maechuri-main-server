@@ -21,3 +21,8 @@ minio:
   endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
   bucket-name: ${MINIO_BUCKET_NAME:maechuri-bucket}
   region: ${MINIO_REGION:us-east-1}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
