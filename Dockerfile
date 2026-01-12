@@ -1,4 +1,4 @@
-FROM gradle:9.2-jdk21 AS build
+FROM --platform=linux/arm64 gradle:9.2-jdk21 AS build
 WORKDIR /app
 
 COPY build.gradle settings.gradle ./
@@ -7,7 +7,7 @@ RUN gradle dependencies --no-daemon
 COPY . .
 RUN gradle clean bootJar -x test --no-daemon
 
-FROM eclipse-temurin:21-jre-jammy
+FROM --platform=linux/arm64 eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar app.jar
