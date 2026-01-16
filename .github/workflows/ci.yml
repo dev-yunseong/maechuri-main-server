@@ -35,6 +35,10 @@ jobs:
           context: .
           push: true
           platforms: linux/arm64
+          secrets: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          build-args: |
+            GITHUB_USERNAME=${{ secrets.GITHUB_USER }}
           tags: |
             ghcr.io/apptive-game-team/maechuri-main:latest
             ghcr.io/apptive-game-team/maechuri-main:${{ github.sha }}
