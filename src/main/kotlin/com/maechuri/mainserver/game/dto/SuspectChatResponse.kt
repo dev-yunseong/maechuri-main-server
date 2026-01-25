@@ -5,5 +5,4 @@ data class SuspectChatResponse(
     val answer: String,
     val pressure: Int,
     val pressureDelta: Int
-) {
-}
+)
