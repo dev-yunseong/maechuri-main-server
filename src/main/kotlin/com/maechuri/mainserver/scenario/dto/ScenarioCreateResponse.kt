@@ -6,5 +6,4 @@ data class ScenarioCreateResponse(
     val status: ScenarioCreateStatus,
     val theme: String,
     val scenarioId: Long? = null,
-) {
-}
+)
