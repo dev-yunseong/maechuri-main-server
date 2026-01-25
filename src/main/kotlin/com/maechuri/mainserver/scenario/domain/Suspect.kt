@@ -17,5 +17,4 @@ class Suspect(
     val criticalClues: List<Clue>,
     val secrets: List<SuspectSecret>,
     val timeLines: List<SuspectTimeline>
-) {
-}
+)
