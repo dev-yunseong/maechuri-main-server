@@ -3,6 +3,8 @@ package com.maechuri.mainserver.admin
 import com.maechuri.mainserver.game.entity.Asset
 import com.maechuri.mainserver.game.entity.Tag
 import com.maechuri.mainserver.game.service.AssetService
+import com.maechuri.mainserver.scenario.provider.ScenarioProvider
+import com.maechuri.mainserver.scenario.repository.ScenarioRepository
 import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Controller
@@ -12,11 +14,27 @@ import org.springframework.web.server.ServerWebExchange
 
 @Controller
 @RequestMapping("/admin")
-class AdminController(private val assetService: AssetService) {
+class AdminController(
+    private val assetService: AssetService,
+    private val scenarioProvider: ScenarioProvider,
+    private val scenarioRepository: ScenarioRepository
+) {
 
-    @GetMapping
+    @GetMapping("/", "")
     fun index(): String {
         return "admin/index"
+    }
+
+    @GetMapping("/scenarios")
+    suspend fun scenarios(model: Model): String {
+        model.addAttribute("scenarios", scenarioRepository.findAll().collectList().awaitSingle())
+        return "admin/scenarios"
+    }
+
+    @GetMapping("/scenarios/{id}")
+    suspend fun scenarioDetail(@PathVariable id: Long, model: Model): String {
+        model.addAttribute("scenario", scenarioProvider.findScenario(id))
+        return "admin/scenario-detail"
     }
 
     @GetMapping("/assets")
