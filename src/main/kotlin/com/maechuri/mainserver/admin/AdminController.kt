@@ -40,7 +40,8 @@ class AdminController(
     }
 
     @PostMapping("/scenarios/generate")
-    suspend fun generateScenario(@RequestParam theme: String): String {
+    suspend fun generateScenario(exchange: ServerWebExchange): String {
+        val theme: String = exchange.formData.awaitSingle()["theme"]?.getOrNull(0) ?: "random"
         scenarioGenerationService.startGeneration(theme)
         return "redirect:/admin/scenarios/generate"
     }
