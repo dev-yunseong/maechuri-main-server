@@ -6,7 +6,6 @@ import com.maechuri.mainserver.scenario.entity.Clue
 import com.maechuri.mainserver.scenario.entity.Fact
 import com.maechuri.mainserver.scenario.entity.Location
 import com.maechuri.mainserver.scenario.entity.Scenario
-import com.maechuri.mainserver.scenario.entity.ScenarioContext
 import com.maechuri.mainserver.scenario.entity.Suspect
 import tools.jackson.databind.ObjectMapper
 import tools.jackson.module.kotlin.jacksonObjectMapper
@@ -119,16 +118,6 @@ fun ScenarioMap.toDomain(): com.maechuri.mainserver.scenario.domain.ScenarioMap 
     )
 }
 
-fun ScenarioContext.toDomain(): com.maechuri.mainserver.scenario.domain.ScenarioContext {
-    val extraDataMap: Map<String, Any>? = this.extraData?.let { if (it.isNotBlank()) objectMapper.readValue(it) else emptyMap() }
-    return com.maechuri.mainserver.scenario.domain.ScenarioContext(
-        contextId = this.contextId,
-        type = this.type,
-        content = this.content,
-        extraData = extraDataMap,
-    )
-}
-
 // Domain to Entity Mappings
 fun com.maechuri.mainserver.scenario.domain.Scenario.toEntity(): Scenario {
     return Scenario(
@@ -223,15 +212,5 @@ fun com.maechuri.mainserver.scenario.domain.ScenarioMap.toEntity(scenarioId: Lon
         width = this.width,
         height = this.height,
         extraData = objectMapper.writeValueAsString(this.extraData),
-    )
-}
-
-fun com.maechuri.mainserver.scenario.domain.ScenarioContext.toEntity(scenarioId: Long): ScenarioContext {
-    return ScenarioContext(
-        scenarioId = scenarioId,
-        contextId = this.contextId,
-        type = this.type,
-        content = this.content,
-        extraData = this.extraData?.let { objectMapper.writeValueAsString(it) },
     )
 }

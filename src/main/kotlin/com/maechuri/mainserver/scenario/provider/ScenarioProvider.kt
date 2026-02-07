@@ -17,7 +17,6 @@ class ScenarioProvider(
     private val suspectRepository: SuspectRepository,
     private val factRepository: FactRepository,
     private val scenarioMapRepository: ScenarioMapRepository,
-    private val scenarioContextRepository: ScenarioContextRepository,
 ) {
 
     suspend fun findScenario(scenarioId: Long): Scenario {
@@ -30,7 +29,6 @@ class ScenarioProvider(
         val suspectEntities = suspectRepository.findAllByScenarioId(scenarioId).collectList().awaitSingle()
         val factEntities = factRepository.findAllByScenarioId(scenarioId).collectList().awaitSingle()
         val mapEntities = scenarioMapRepository.findAllByScenarioId(scenarioId).collectList().awaitSingle()
-        val contextEntities = scenarioContextRepository.findAllByScenarioId(scenarioId).collectList().awaitSingle()
 
         // 2. Convert entities to domain objects
         val domainLocations = locationEntities.map { it.toDomain() }
@@ -45,7 +43,6 @@ class ScenarioProvider(
         val domainSuspects = suspectEntities.map { it.toDomain() }
         val domainFacts = factEntities.map { it.toDomain() }
         val domainMaps = mapEntities.map { it.toDomain() }
-        val domainContexts = contextEntities.map { it.toDomain() }
 
         // 3. Assemble the full domain object
         domainScenario.locations = domainLocations
@@ -53,7 +50,6 @@ class ScenarioProvider(
         domainScenario.suspects = domainSuspects
         domainScenario.facts = domainFacts
         domainScenario.maps = domainMaps
-        domainScenario.contexts = domainContexts
 
         return domainScenario
     }

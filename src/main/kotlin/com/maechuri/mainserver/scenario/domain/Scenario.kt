@@ -33,5 +33,4 @@ data class Scenario(
     var suspects: List<Suspect> = emptyList(),
     var facts: List<Fact> = emptyList(),
     var maps: List<ScenarioMap> = emptyList(),
-    var contexts: List<ScenarioContext> = emptyList(),
 )
